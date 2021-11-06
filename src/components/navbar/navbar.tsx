@@ -1,23 +1,28 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Component } from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
 
-interface NavbarProps {}
+interface NavigationBarProps {}
 
-class Navbar extends Component<NavbarProps> {
+class NavigationBar extends Component<NavigationBarProps> {
   render() {
     return (
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Pokemon Home</Link>
-          </li>
-          <li>
-            <Link to="/my">My Pokemon</Link>
-          </li>
-        </ul>
-      </nav>
+      <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+        <Container>
+          <Navbar.Brand href="#home">Poke-Mon</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto"></Nav>
+            <Nav>
+              <Nav.Link href="/">Pokemon Home</Nav.Link>
+              <Nav.Link href="/my">My Pokemon</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     );
   }
 }
 
-export default Navbar;
+export default NavigationBar;
