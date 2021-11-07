@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-interface PokemonDetailProps {}
-
-class PokemonDetail extends Component<PokemonDetailProps> {
+export class PokemonDetail extends Component {
   render() {
     return <div>Detail</div>;
   }
 }
 
-export default PokemonDetail;
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonDetail);
