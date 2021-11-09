@@ -1,5 +1,6 @@
-export const addPokemon = (item: any) => ({
+export const addPokemon = (nickname: string, item: any) => ({
   type: 'ADD_POKE',
+  nickname: nickname,
   payload: item,
 });
 

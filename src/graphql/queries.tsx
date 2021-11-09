@@ -17,3 +17,29 @@ export const LOAD_POKEMON = gql`
     }
   }
 `;
+
+export const LOAD_POKEMON_DETAIL = gql`
+  query pokemon($name: String!) {
+    pokemon(name: $name) {
+      id
+      name
+      abilities {
+        ability {
+          name
+        }
+      }
+      moves {
+        move {
+          name
+        }
+      }
+      types {
+        type {
+          name
+        }
+      }
+      message
+      status
+    }
+  }
+`;

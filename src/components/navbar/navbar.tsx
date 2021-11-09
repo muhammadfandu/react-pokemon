@@ -10,12 +10,12 @@ class NavigationBar extends Component<NavigationBarProps> {
     return (
       <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Poke-Mon</Navbar.Brand>
+          <Navbar.Brand href="/">Poke-Mon</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
             <Nav>
-              <Nav.Link href="/">Pokemon Home</Nav.Link>
+              <Nav.Link href="/">Explore Pokemon</Nav.Link>
               <Nav.Link href="/my">My Pokemon</Nav.Link>
             </Nav>
           </Navbar.Collapse>

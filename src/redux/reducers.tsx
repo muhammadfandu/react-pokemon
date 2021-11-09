@@ -1,22 +1,37 @@
+export interface MyPokemon {
+  id: any;
+  nickname: string;
+  name: string;
+  image: string;
+  url: string;
+}
+
 export interface PokemonItem {
   id: any;
   name: string;
+  image: string;
+  url: string;
 }
 export interface PokemonState {
-  pokemonItems: PokemonItem[];
+  pokemonItems: MyPokemon[];
   selectedPokemon: PokemonItem;
 }
 
 const initialState = {
   pokemonItems: [
     {
-      id: 1,
-      name: 'hello',
+      id: 0,
+      nickname: '',
+      name: '',
+      image: '',
+      url: '',
     },
   ],
   selectedPokemon: {
-    id: 1,
-    name: 'hello',
+    id: 0,
+    name: '',
+    image: '',
+    url: '',
   },
 };
 
@@ -26,8 +41,13 @@ export const pokemonReducers = (state: PokemonState = initialState, action: any)
       let newId = state.pokemonItems[state.pokemonItems.length - 1].id + 1;
       let newPokemon = {
         id: newId,
-        name: action.payload,
+        nickname: action.nickname,
+        name: action.payload.name,
+        image: action.payload.image,
+        url: action.payload.url,
       };
+
+      console.log(newPokemon);
       return { ...state, pokemonItems: [...state.pokemonItems, newPokemon], selectedPokemon: state.selectedPokemon };
     }
     case 'DELETE_POKE': {
