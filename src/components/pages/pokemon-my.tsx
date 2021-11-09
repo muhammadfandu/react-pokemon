@@ -70,18 +70,20 @@ function PokemonMy() {
                   <div className="col-md-6" key={pokemon.id}>
                     <div className="card mb-2">
                       <div className="row">
-                        <div className="col-md-4 col-xs-12">
-                          <Card style={{ width: '100%' }}>
-                            <Card.Img variant="top" src={pokemon.image} />
-                          </Card>
+                        <div className="col-md-4 col-xs-12 ">
+                          <div className="d-flex h-100">
+                            <Card style={{ width: '100%' }} className=" justify-content-center align-self-center">
+                              <Card.Img variant="top" src={pokemon.image} />
+                            </Card>
+                          </div>
                         </div>
                         <div className="card-body col-md-8 col-xs-12 p-4">
                           <div className="row">
-                            <div className="col-sm-8">
+                            <div className="col-sm-12">
                               <h2 className="text-default">{pokemon.nickname}</h2>
                               <p className="text-default">({pokemon.name})</p>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-sm-12">
                               <Link
                                 to="/detail"
                                 className="btn btn-primary my-1 me-1"

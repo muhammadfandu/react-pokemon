@@ -6,6 +6,7 @@ import { LOAD_POKEMON } from '../../graphql/queries';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { PokemonItem, PokemonState } from '../../redux/interfaces';
+import { css } from '@emotion/css';
 
 const random = Math.floor(Math.random() * 50);
 // const random = 0;
@@ -64,15 +65,17 @@ function PokemonHome() {
                   <div className="card mb-2">
                     <div className="row">
                       <div className="col-md-4 col-xs-12">
-                        <Card style={{ width: '100%' }}>
-                          <Card.Img variant="top" src={pokemon.image} />
-                        </Card>
+                        <div className="d-flex h-100">
+                          <Card style={{ width: '100%' }} className=" justify-content-center align-self-center">
+                            <Card.Img variant="top" src={pokemon.image} />
+                          </Card>
+                        </div>
                       </div>
                       <div className="card-body col-md-8 col-xs-12 p-4">
                         <div className="row">
                           <div className="col-sm-8">
                             <h2 className="text-default">{pokemon.name}</h2>
-                            <p>Owned: {owned}</p>
+                            <b className={css({ color: '#888888' })}>Owned: {owned}</b>
                           </div>
                           <div className="col-sm-4">
                             <Link

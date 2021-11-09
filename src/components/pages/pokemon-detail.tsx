@@ -11,6 +11,7 @@ import { css } from '@emotion/css';
 function PokemonDetail() {
   const dispatch = useDispatch();
   const pokemonState = useSelector<PokemonState, PokemonState['selectedPokemon']>((state) => state.selectedPokemon);
+  const myPokemons = useSelector<PokemonState, PokemonState['pokemonItems']>((state) => state.pokemonItems);
   const [pokemon, setPokemon] = useState<Pokemon>();
   let typesId = 0;
   let movesId = 0;
@@ -26,10 +27,24 @@ function PokemonDetail() {
   const onAddPokemon = (pokemon: PokemonItem) => {
     if (Math.round(Math.random()) === 1) {
       swal('Success!', 'You got the pokemon', 'success').then((value) => {
-        let nickname = prompt('Give your pokemon a cool nickname:', '');
+        let isValid = false;
+        let nicknameExist = false;
         let name = '';
-        if (nickname !== null && nickname !== '') name = nickname;
-        dispatch(addPokemon(name, pokemon));
+
+        while (!isValid) {
+          let nickname = prompt('Give your pokemon a cool nickname:', '');
+          if (nickname !== null && nickname !== '') name = nickname;
+
+          myPokemons.map((pokemon: any) => {
+            if (pokemon.nickname === nickname) {
+              nicknameExist = true;
+              alert(nickname + ' already used, please insert another nickname');
+            }
+          });
+
+          nicknameExist ? (nicknameExist = false) : (isValid = true);
+        }
+        if (isValid) dispatch(addPokemon(name, pokemon));
       });
     } else {
       swal('Failed!', 'The pokemon got away!', 'warning');
