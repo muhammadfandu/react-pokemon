@@ -50,7 +50,7 @@ function PokemonHome() {
     );
   } else {
     return (
-      <div className="container mt-4">
+      <div data-testid="home-page" className="container mt-4">
         <div className="pokemon-app">
           <h1>Explore Pokemon</h1>
           <hr />
