@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
-import { deletePokemon } from '../../redux/actions';
-import { PokemonState } from '../../redux/reducers';
+import { deletePokemon, selectPokemon } from '../../redux/actions';
+import { PokemonItem, PokemonState } from '../../redux/reducers';
+import { Link } from 'react-router-dom';
 
 function PokemonMy() {
   const pokemons = useSelector<PokemonState, PokemonState['pokemonItems']>((state) => state.pokemonItems);
@@ -29,6 +28,10 @@ function PokemonMy() {
         swal(nickname + ' is safe!');
       }
     });
+  };
+
+  const onSelectPokemon = (pokemon: PokemonItem) => {
+    dispatch(selectPokemon(pokemon));
   };
 
   if (loading) {
@@ -66,6 +69,13 @@ function PokemonMy() {
                             <p className="text-default">({pokemon.name})</p>
                           </div>
                           <div className="col-sm-4">
+                            <Link
+                              to="/detail"
+                              className="btn btn-primary my-1 me-1"
+                              onClick={() => onSelectPokemon(pokemon)}
+                            >
+                              Detail
+                            </Link>
                             <button
                               className="btn btn-danger"
                               onClick={() => onRemovePokemon(pokemon.id, pokemon.nickname)}

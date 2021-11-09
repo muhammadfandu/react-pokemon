@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_POKEMON_DETAIL } from '../../graphql/queries';
 import { addPokemon } from '../../redux/actions';
 import { PokemonItem, PokemonState } from '../../redux/reducers';
+import swal from 'sweetalert';
 
 export interface Abilities {
   ability: Ability;
@@ -51,14 +52,35 @@ function PokemonDetail() {
 
   const onAddPokemon = (pokemon: PokemonItem) => {
     if (Math.round(Math.random()) == 1) {
-      let nickname = prompt('Successfully catched, give your pokemon a cool nickname:', '');
-      let name = '';
-      if (nickname != null && nickname != '') name = nickname;
-      dispatch(addPokemon(name, pokemon));
+      swal('Success!', 'You got the pokemon', 'success').then((value) => {
+        let nickname = prompt('Give your pokemon a cool nickname:', '');
+        let name = '';
+        if (nickname != null && nickname != '') name = nickname;
+        dispatch(addPokemon(name, pokemon));
+      });
     } else {
-      alert('Failed to catch, try again later');
+      swal('Failed!', 'The pokemon got away!', 'warning');
     }
   };
+
+  let title: any;
+  let btnCatch: any;
+  if (pokemonState.nickname != undefined && pokemonState.nickname != '') {
+    title = (
+      <h1 className="text-default mb-4">
+        {pokemonState.nickname}
+        <small style={{ color: '#ababab' }}> ({pokemonState.name})</small>
+      </h1>
+    );
+    btnCatch = <button className="btn btn-success float-end  mt-4">This is your pokemon</button>;
+  } else {
+    title = <h1 className="text-default mb-4">{pokemonState.name}</h1>;
+    btnCatch = (
+      <button className="btn btn-success float-end  mt-4" onClick={() => onAddPokemon(pokemonState)}>
+        Catch (50% chance)
+      </button>
+    );
+  }
 
   if (loading) {
     return (
@@ -90,7 +112,7 @@ function PokemonDetail() {
                     <div className="card-body col-md-8 col-xs-12 p-4">
                       <div className="row">
                         <div className="col-sm-8 col-xs-12">
-                          <h1 className="text-default mb-4">{pokemon.name}</h1>
+                          {title}
                           <p>Types:</p>
                           <ul className="list-group">
                             {pokemon.types.map((types) => {
@@ -104,14 +126,7 @@ function PokemonDetail() {
                           </ul>
                         </div>
                         <div className="col-sm-8 col-xs-12">
-                          <div className="d-grid gap-2">
-                            <button
-                              className="btn btn-success float-end  mt-4"
-                              onClick={() => onAddPokemon(pokemonState)}
-                            >
-                              Catch (50% chance)
-                            </button>
-                          </div>
+                          <div className="d-grid gap-2">{btnCatch}</div>
                         </div>
                       </div>
                     </div>

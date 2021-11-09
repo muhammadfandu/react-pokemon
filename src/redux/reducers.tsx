@@ -8,6 +8,7 @@ export interface MyPokemon {
 
 export interface PokemonItem {
   id: any;
+  nickname: string;
   name: string;
   image: string;
   url: string;
@@ -29,6 +30,7 @@ const initialState = {
   ],
   selectedPokemon: {
     id: 0,
+    nickname: '',
     name: '',
     image: '',
     url: '',
