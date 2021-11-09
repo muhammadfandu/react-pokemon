@@ -2,8 +2,8 @@ import { Card } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import swal from 'sweetalert';
 import { deletePokemon, selectPokemon } from '../../redux/actions';
-import { PokemonItem, PokemonState } from '../../redux/reducers';
 import { Link } from 'react-router-dom';
+import { PokemonState, PokemonItem } from '../../redux/interfaces';
 
 function PokemonMy() {
   const pokemons = useSelector<PokemonState, PokemonState['pokemonItems']>((state) => state.pokemonItems);
@@ -34,6 +34,17 @@ function PokemonMy() {
     dispatch(selectPokemon(pokemon));
   };
 
+  let greetingsElement: any;
+  if (pokemons.length === 1) {
+    greetingsElement = (
+      <div className="mt-4">
+        <div className="d-flex justify-content-center">
+          <h4>Go catch your first pokemon</h4>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="container mt-4">
@@ -52,43 +63,48 @@ function PokemonMy() {
           <h1>My Pokemon</h1>
           <hr />
           <div className="row">
+            {greetingsElement}
             {pokemons.map((pokemon: any) => {
-              return (
-                <div className="col-md-6">
-                  <div className="card mb-2" key={pokemon.id}>
-                    <div className="row">
-                      <div className="col-md-4 col-xs-12">
-                        <Card style={{ width: '100%' }}>
-                          <Card.Img variant="top" src={pokemon.image} />
-                        </Card>
-                      </div>
-                      <div className="card-body col-md-8 col-xs-12 p-4">
-                        <div className="row">
-                          <div className="col-sm-8">
-                            <h2 className="text-default">{pokemon.nickname}</h2>
-                            <p className="text-default">({pokemon.name})</p>
-                          </div>
-                          <div className="col-sm-4">
-                            <Link
-                              to="/detail"
-                              className="btn btn-primary my-1 me-1"
-                              onClick={() => onSelectPokemon(pokemon)}
-                            >
-                              Detail
-                            </Link>
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => onRemovePokemon(pokemon.id, pokemon.nickname)}
-                            >
-                              Release
-                            </button>
+              if (pokemon.id > 0) {
+                return (
+                  <div className="col-md-6" key={pokemon.id}>
+                    <div className="card mb-2">
+                      <div className="row">
+                        <div className="col-md-4 col-xs-12">
+                          <Card style={{ width: '100%' }}>
+                            <Card.Img variant="top" src={pokemon.image} />
+                          </Card>
+                        </div>
+                        <div className="card-body col-md-8 col-xs-12 p-4">
+                          <div className="row">
+                            <div className="col-sm-8">
+                              <h2 className="text-default">{pokemon.nickname}</h2>
+                              <p className="text-default">({pokemon.name})</p>
+                            </div>
+                            <div className="col-sm-4">
+                              <Link
+                                to="/detail"
+                                className="btn btn-primary my-1 me-1"
+                                onClick={() => onSelectPokemon(pokemon)}
+                              >
+                                Detail
+                              </Link>
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => onRemovePokemon(pokemon.id, pokemon.nickname)}
+                              >
+                                Release
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              } else {
+                return <div></div>;
+              }
             })}
           </div>
         </div>

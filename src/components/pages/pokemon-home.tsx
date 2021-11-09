@@ -1,4 +1,3 @@
-import { PokemonItem, PokemonState } from '../../redux/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPokemon } from '../../redux/actions';
 import { Link } from 'react-router-dom';
@@ -6,17 +5,17 @@ import { useQuery } from '@apollo/client';
 import { LOAD_POKEMON } from '../../graphql/queries';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
+import { PokemonItem, PokemonState } from '../../redux/interfaces';
 
 const random = Math.floor(Math.random() * 50);
 // const random = 0;
-let pokemonNumber = 0;
 
 function PokemonHome() {
   const dispatch = useDispatch();
   const myPokemons = useSelector<PokemonState, PokemonState['pokemonItems']>((state) => state.pokemonItems);
   const [pokemons, setPokemons] = useState([]);
 
-  const { error, loading, data } = useQuery(LOAD_POKEMON, { variables: { limit: 16, offset: random } });
+  const { loading, data } = useQuery(LOAD_POKEMON, { variables: { limit: 16, offset: random } });
   useEffect(() => {
     if (data) {
       setPokemons(data.pokemons.results);
@@ -27,7 +26,8 @@ function PokemonHome() {
     let count = 0;
 
     myPokemons.map((pokemon: any) => {
-      pokemon.name == name ? count++ : (count = count);
+      if (pokemon.name === name) count++;
+      return count;
     });
 
     return count;
@@ -56,13 +56,12 @@ function PokemonHome() {
           <hr />
           <div className="row">
             {pokemons.map((pokemon: any) => {
-              pokemonNumber++;
               let owned = 0;
               owned = countOwnedPokemons(pokemon.name);
 
               return (
-                <div className="col-md-6">
-                  <div className="card mb-2" key={pokemon.id}>
+                <div className="col-md-6" key={pokemon.id}>
+                  <div className="card mb-2">
                     <div className="row">
                       <div className="col-md-4 col-xs-12">
                         <Card style={{ width: '100%' }}>

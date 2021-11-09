@@ -4,36 +4,9 @@ import { Accordion, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_POKEMON_DETAIL } from '../../graphql/queries';
 import { addPokemon } from '../../redux/actions';
-import { PokemonItem, PokemonState } from '../../redux/reducers';
 import swal from 'sweetalert';
-
-export interface Abilities {
-  ability: Ability;
-}
-export interface Ability {
-  name: String;
-}
-export interface Moves {
-  move: Move;
-}
-export interface Move {
-  name: String;
-}
-export interface Types {
-  type: Type;
-}
-export interface Type {
-  name: String;
-}
-export interface Pokemon {
-  id: number;
-  name: String;
-  abilities: Abilities[];
-  moves: Moves[];
-  types: Types[];
-  message: String;
-  status: Boolean;
-}
+import { PokemonState, Pokemon, PokemonItem } from '../../redux/interfaces';
+import { css } from '@emotion/css';
 
 function PokemonDetail() {
   const dispatch = useDispatch();
@@ -43,7 +16,7 @@ function PokemonDetail() {
   let movesId = 0;
   let abilitiesId = 0;
 
-  const { error, loading, data } = useQuery(LOAD_POKEMON_DETAIL, { variables: { name: pokemonState.name } });
+  const { loading, data } = useQuery(LOAD_POKEMON_DETAIL, { variables: { name: pokemonState.name } });
   useEffect(() => {
     if (data) {
       setPokemon(data.pokemon);
@@ -51,11 +24,11 @@ function PokemonDetail() {
   }, [data]);
 
   const onAddPokemon = (pokemon: PokemonItem) => {
-    if (Math.round(Math.random()) == 1) {
+    if (Math.round(Math.random()) === 1) {
       swal('Success!', 'You got the pokemon', 'success').then((value) => {
         let nickname = prompt('Give your pokemon a cool nickname:', '');
         let name = '';
-        if (nickname != null && nickname != '') name = nickname;
+        if (nickname !== null && nickname !== '') name = nickname;
         dispatch(addPokemon(name, pokemon));
       });
     } else {
@@ -65,11 +38,11 @@ function PokemonDetail() {
 
   let title: any;
   let btnCatch: any;
-  if (pokemonState.nickname != undefined && pokemonState.nickname != '') {
+  if (pokemonState.nickname !== undefined && pokemonState.nickname !== '') {
     title = (
       <h1 className="text-default mb-4">
         {pokemonState.nickname}
-        <small style={{ color: '#ababab' }}> ({pokemonState.name})</small>
+        <small className={css({ color: '#ababab' })}> ({pokemonState.name})</small>
       </h1>
     );
     btnCatch = <button className="btn btn-success float-end  mt-4">This is your pokemon</button>;
@@ -112,7 +85,7 @@ function PokemonDetail() {
                     <div className="card-body col-md-8 col-xs-12 p-4">
                       <div className="row">
                         <div className="col-sm-8 col-xs-12">
-                          {title}
+                          <div>{title}</div>
                           <p>Types:</p>
                           <ul className="list-group">
                             {pokemon.types.map((types) => {

@@ -1,22 +1,4 @@
-export interface MyPokemon {
-  id: any;
-  nickname: string;
-  name: string;
-  image: string;
-  url: string;
-}
-
-export interface PokemonItem {
-  id: any;
-  nickname: string;
-  name: string;
-  image: string;
-  url: string;
-}
-export interface PokemonState {
-  pokemonItems: MyPokemon[];
-  selectedPokemon: PokemonItem;
-}
+import { PokemonState } from './interfaces';
 
 const initialState = {
   pokemonItems: [
@@ -49,7 +31,6 @@ export const pokemonReducers = (state: PokemonState = initialState, action: any)
         url: action.payload.url,
       };
 
-      console.log(newPokemon);
       return { ...state, pokemonItems: [...state.pokemonItems, newPokemon], selectedPokemon: state.selectedPokemon };
     }
     case 'DELETE_POKE': {
