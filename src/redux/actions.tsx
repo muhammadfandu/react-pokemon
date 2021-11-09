@@ -1,4 +1,6 @@
-export const addItem = (item: any) => ({
-  type: 'ADD_ITEM',
+export type Action = { type: 'ADD_POKE'; payload: string };
+
+export const addPokemon = (item: any): Action => ({
+  type: 'ADD_POKE',
   payload: item,
 });

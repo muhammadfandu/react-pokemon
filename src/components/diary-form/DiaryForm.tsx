@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
-export default function DiaryForm() {
-  const [title, setTitle] = useState('');
+interface DiaryFormProps {
+  addPokemon(pokemon: string): void;
+}
 
-  const onSubmit = (event: any) => {
-    event.preventDefault();
-    let itemObject = {
-      title: title,
-    };
+export const DiaryForm: React.FC<DiaryFormProps> = ({ addPokemon }) => {
+  const [pokemon, setPokemon] = useState('');
+
+  const updatePokemon = (event: ChangeEvent<HTMLInputElement>) => {
+    setPokemon(event.target.value);
+  };
+
+  const onAddPokemonClick = () => {
+    addPokemon(pokemon);
+    setPokemon('');
   };
 
   return (
     <div className="">
       <div className="row">
         <div className="col-md-6">
-          <form onSubmit={onSubmit}>
-            <div className="diary-form">
-              <input
-                onChange={(event) => setTitle(event.target.value)}
-                type="text"
-                placeholder="Add an item"
-                className="form-control"
-              />
-              <button className="btn btn-primary mt-2" type="submit">
-                Add Item
-              </button>
-            </div>
-          </form>
+          <div className="diary-form">
+            <input
+              onChange={updatePokemon}
+              value={pokemon}
+              type="text"
+              placeholder="Add an item"
+              className="form-control"
+            />
+            <button onClick={onAddPokemonClick} className="btn btn-primary mt-2" type="submit">
+              Add Item
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
