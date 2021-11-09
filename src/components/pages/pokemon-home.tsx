@@ -1,26 +1,55 @@
-import { PokemonState } from '../../redux/reducers';
+import { PokemonItem, PokemonState } from '../../redux/reducers';
 import { useSelector, useDispatch } from 'react-redux';
 import { DiaryForm } from '../diary-form/DiaryForm';
-import { addPokemon } from '../../redux/actions';
+import { addPokemon, deletePokemon, selectPokemon } from '../../redux/actions';
+import { Link } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
+import { LOAD_POKEMON } from '../../graphql/queries';
+import { useEffect, useState } from 'react';
 
 function PokemonHome() {
-  const pokemons = useSelector<PokemonState, PokemonState['pokemonItems']>((state) => state.pokemonItems);
   const dispatch = useDispatch();
-  console.log(pokemons);
+  const [pokemons, setPokemons] = useState([]);
+
+  const { error, loading, data } = useQuery(LOAD_POKEMON);
+  useEffect(() => {
+    if (data) {
+      setPokemons(data.pokemons.results);
+    }
+  }, [data]);
 
   const onAddPokemon = (pokemons: string) => {
     dispatch(addPokemon(pokemons));
   };
 
+  const onDeletePokemon = (id: any) => {
+    dispatch(deletePokemon(id));
+  };
+
+  const onSelectPokemon = (pokemon: PokemonItem) => {
+    dispatch(selectPokemon(pokemon));
+  };
+
+  console.log(pokemons);
+
   return (
     <div className="container mt-4">
-      <div className="diary-app">
-        <h1>Dear Diary</h1>
-        <DiaryForm addPokemon={onAddPokemon} />
+      <div className="pokemon-app">
+        <h1>Explore Pokemon</h1>
         <hr />
         <ul>
-          {pokemons.map((pokemon) => {
-            return <li key={pokemon}>{pokemon}</li>;
+          {pokemons.map((pokemon: any) => {
+            return (
+              <li key={pokemon.id}>
+                {pokemon.name}{' '}
+                <Link to="/detail" className="btn btn-primary" onClick={() => onSelectPokemon(pokemon)}>
+                  Detail
+                </Link>{' '}
+                <button className="btn btn-danger" onClick={() => onDeletePokemon(pokemon.id)}>
+                  Remove
+                </button>
+              </li>
+            );
           })}
         </ul>
       </div>
