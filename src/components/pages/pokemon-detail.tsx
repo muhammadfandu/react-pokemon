@@ -28,10 +28,10 @@ function PokemonDetail() {
     if (Math.round(Math.random()) === 1) {
       swal('Success!', 'You got the pokemon', 'success').then((value) => {
         let isValid = false;
-        let nicknameExist = false;
         let name = '';
 
         while (!isValid) {
+          let nicknameExist = false;
           let nickname = prompt('Give your pokemon a cool nickname:', '');
           if (nickname !== null && nickname !== '') name = nickname;
 
@@ -40,6 +40,7 @@ function PokemonDetail() {
               nicknameExist = true;
               alert(nickname + ' already used, please insert another nickname');
             }
+            return nicknameExist;
           });
 
           nicknameExist ? (nicknameExist = false) : (isValid = true);
